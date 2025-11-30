@@ -16,3 +16,15 @@ export async function getBlockContent(block: BlockEntity, parentBlock = true, le
 
   return content;
 }
+
+
+export function escapeLLMOutput(text: string) {
+  function removeThinkingPart(text: string) {
+    // <think> ... </think>
+    const thinkingPattern = /<think>[\s\S]*?<\/think>/gi;
+    return text.replace(thinkingPattern, '');
+  }
+
+  let cleanedText = removeThinkingPart(text);
+  return cleanedText.trim();
+}

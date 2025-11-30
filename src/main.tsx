@@ -9,7 +9,7 @@ import {
 import * as presetPrompts from './prompts';
 import { IPrompt, PromptOutputType } from './prompts/type';
 import settings, { ISettings } from './settings';
-import { getBlockContent } from './utils';
+import { escapeLLMOutput, getBlockContent } from './utils';
 
 function getPrompts() {
   const { customPrompts } = logseq.settings as unknown as ISettings;
@@ -74,7 +74,7 @@ function main() {
         const input = await template.formatMessages({ content });
         const message = await model.call(input);
         // only accept text response for now
-        const response = message.content.toString();
+        const response = escapeLLMOutput(message.content.toString());
 
         switch (output) {
           case PromptOutputType.property: {
